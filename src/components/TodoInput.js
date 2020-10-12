@@ -13,8 +13,7 @@ class TodoInput extends Component {
         this.addItem = this.addItem.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
     }
-
-
+    
     //Método que maneja lo que se escribe en el input(recibe el mensaje escrito)
     handleInput = e => {
         this.setState({
@@ -29,7 +28,7 @@ class TodoInput extends Component {
             const items = [...this.state.items, newItem];
             this.setState({
                 items: items,
-                currentItem: {
+                currentItem: {  //Para que al enviar el item(tarea) se vacíe el input
                     text: '',
                     id: ''
                 }
@@ -39,37 +38,35 @@ class TodoInput extends Component {
     //Método para eliminar un item utilizando filter method
     deleteItem = (id) => {
         console.log(this.state);
-        const filteredItems = this.state.items.filter(item => item.id !== id);
+        const deletedItems = this.state.items.filter(item => item.id !== id);
         this.setState({
-            items: filteredItems
+            items: deletedItems
         })
-        console.log(filteredItems);
+        console.log(deletedItems);
     }
-    onSubmit = (e) => {
-        e.preventDefault();
-    }
-
+   
     render() {
         return (
             <div className="container  mt-4">
-                <p className="todo-title text-center font-weight-light">todos</p>
+                {/*title*/}
+                <p className="todo-title text-center font-weight-light">todo list</p>
                 
-                <div className="col-8 m-auto">
+                <div className="list-group col-8 m-auto">
+                    {/*Form---ADD an item to input field*/}
                     <form onSubmit={this.addItem}>
-                        <div className="list-group bg-white border">
                         <input
-                            className="input"
+                            className="form-control"
                             type="text"
                             placeholder="Add a task"
-                            value={this.state.currentItem.text}
+                            value= {this.state.currentItem.text}
                             onChange={this.handleInput}
                         />
                         <button className="btn d-none" type="submit"></button>
-                        </div>
                     </form>
-
+                    {/*List of tasks and delete button*/}
                     <TodoList items={this.state.items} deleteItem={this.deleteItem} />
 
+                    {/*Tasks counter*/}
                     <div className="item-counter list-group bg-white border pt-2 pl-3">
                         <p>{this.state.items.length} item left</p>
                     </div>
